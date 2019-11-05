@@ -2,9 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import api from './api' // 导入api接口
+Vue.prototype.$api = api; // 将api挂载到vue的原型上复制代码
 
 Vue.config.productionTip = false
 
+import 'amfe-flexible/index.js';
+
+import './assets/style/common.css';
 new Vue({
   router,
   store,

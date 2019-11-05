@@ -5,8 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    token: '',
+    network: true
   },
   mutations: {
+    changeNetwork(state, value) {
+      state.network = value;
+    }
   },
   actions: {
   },

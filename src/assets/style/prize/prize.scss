@@ -1,0 +1,108 @@
+.prize {
+  .prize-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 199;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+  }
+  .mescroll {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    height: auto;
+    background: #f8f8f8;
+  }
+  .prize-content {
+    padding: 13px 12px;
+  }
+  .prize-list {
+    .item {
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius:5px;
+      .card-header {
+        height: 32px;
+        line-height: 32px;
+        padding: 0 10px;
+        font-size: 13px;
+        color: #999;
+        box-sizing: border-box;
+        border-bottom: 1px solid #EFEFEF;
+      }
+      .card-body {
+        position: relative;
+        box-sizing: border-box;
+        padding: 13px 10px;
+        border-bottom: 1px solid #EFEFEF;
+        .goods-img-box {
+          width: 75px;
+          height: 75px;
+          background-color: #f6f6f6;
+          position: absolute;
+          .img {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .goods-info {
+          box-sizing: border-box;
+          padding-left: 85px;
+          .name {
+            font-size: 15px;
+            color: #333;
+            line-height: 17px;
+            height: 17px;
+            margin-bottom: 17px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .source {
+            color: #666;
+            font-size: 14px;
+            line-height: 16px;
+            height: 16px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .type {
+            font-size: 14px;
+            color: #FF4800;
+            line-height: 16px;
+            height: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+      .card-footer {
+        height: 47px;
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: right;
+        .footer-btn {
+          width:80px;
+          height:27px;
+          border:1px solid rgba(255,72,0,1);
+          border-radius:13px;
+          background: #fff;
+          outline: 0;
+          margin-right: 10px;
+          font-size: 13px;
+          color: #FF4800;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
