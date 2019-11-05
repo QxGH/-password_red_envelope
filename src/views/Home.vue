@@ -42,21 +42,57 @@
       v-model="joinPeoplePopup"
       round
       position="bottom"
-      :style="{ height: '320px' }"
+      :style="{ height: `${joinPeoplePopupHeight}px` }"
       @opened="joinPeoplePopupEnter"
       @closed="joinPeoplePopupClose"
     >
       <template>
         <div class="join-people-popup">
           <div class="popup-header clearfix">
-            <div class="join-num pull-left">最近50人参与</div>
+            <div class="join-num pull-left" @click="showMore">最近50人参与</div>
             <div class="join-type pull-right" @click="changeJoinType">
               <span v-if="joinType == '1'">全部</span>
               <span v-else>只看我</span>
             </div>
           </div>
+          <audio :src="audioSrc"></audio>
           <div class="join-list" ref="joinList" v-if="joinList.length != 0">
-            <ul ref="joinListItems">
+            <van-pull-refresh v-model="listDownLoading" @refresh="listDownOnLoad">
+              <van-list
+                v-model="listUpLoading"
+                :finished="listUpFinished"
+                finished-text="没有更多了"
+                @load="listUpOnLoad"
+              >
+                <div class="item van-clearfix" v-for="item in joinList" :key="item.id">
+                  <div class="pull-left">
+                    <div class="avatar">
+                      <img class="img" :src="item.avatar" alt srcset />
+                    </div>
+                    <div class="info">
+                      <div class="name">{{item.name}}</div>
+                      <div class="text" v-if="item.text">{{item.text}}</div>
+                      <div class="voice" v-else>
+                        <div class="bubble">
+                          <i class="icon"></i>
+                        </div>
+                        <div class="time">44''</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pull-right">
+                    <div class="prize">
+                      获得
+                      <span class="num">{{item.num}}</span>
+                      元
+                    </div>
+                    <div class="date">{{item.date}}</div>
+                  </div>
+                </div>
+              </van-list>
+            </van-pull-refresh>
+
+            <!-- <ul ref="joinListItems">
               <li class="item clearfix" v-for="item in joinList" :key="item.id">
                 <div class="pull-left">
                   <div class="avatar">
@@ -82,10 +118,7 @@
                   <div class="date">{{item.date}}</div>
                 </div>
               </li>
-            </ul>
-            <div class="join-list-loading" v-if="joinListLoading">
-              加载中...
-            </div>
+            </ul>-->
           </div>
           <div class="join-empty" v-else>
             <i class="icon"></i>
@@ -119,24 +152,26 @@
     <!-- 红包提现弹窗 start -->
     <cashDialog :cashDialog="cashDialog" @cashConfirm="cashSubmit"></cashDialog>
     <!-- 红包提现弹窗 end -->
-
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import followDialog from '@/components/followDialog.vue';  // 关注弹窗
-import joinDialog from '@/components/joinDialog.vue';     // 参与活动提示弹窗
-import wainingDialog from '@/components/wainingDialog.vue'; // 中奖领取弹窗
-import resultDialog from '@/components/resultDialog.vue'; // 领奖结果弹窗
-import cashDialog from '@/components/cashDialog.vue'; // 红包提现弹窗
+import followDialog from "@/components/followDialog.vue"; // 关注弹窗
+import joinDialog from "@/components/joinDialog.vue"; // 参与活动提示弹窗
+import wainingDialog from "@/components/wainingDialog.vue"; // 中奖领取弹窗
+import resultDialog from "@/components/resultDialog.vue"; // 领奖结果弹窗
+import cashDialog from "@/components/cashDialog.vue"; // 红包提现弹窗
 
-import { Popup } from "vant";
+import { Popup, List, PullRefresh } from "vant";
+
 export default {
   name: "home",
   components: {
     // HelloWorld
     "van-popup": Popup,
+    "van-list": List,
+    "van-pull-refresh": PullRefresh,
     followDialog,
     joinDialog,
     wainingDialog,
@@ -146,6 +181,7 @@ export default {
   data() {
     return {
       joinPeoplePopup: false, // 参与弹窗
+      joinPeoplePopupHeight: 320,
       joinType: "1", // 1-全部；2-只看我
       joinList: [
         {
@@ -199,36 +235,42 @@ export default {
           date: "2019-09-17 09:10"
         }
       ],
-      joinListLoading: false,
-      followDialog: { // 关注弹窗
+      audioSrc: '',
+      listUpLoading: false, // 参与用户列表 - 上拉刷新
+      listUpFinished: false,  // 参与用户列表 - 上拉刷新完成
+      listDownLoading: false, // 参与用户列表 - 下拉刷新
+      followDialog: {
+        // 关注弹窗
         show: false,
-        method: 1,  // 1- 强制；2-引导
-        type: 1,  // 1-语音；2-文字
-        params: {
-          
-        }
+        method: 1, // 1- 强制；2-引导
+        type: 1, // 1-语音；2-文字
+        params: {}
       },
-      joinDialog: { // 参与活动提示弹窗
-        show: false, 
-        type: 1, // 1-今天没机会了；2-活动攻略；3-积分不够，改天再玩；4-分享
-      },
-      wainingDialog: {  // 中奖领取弹窗
+      joinDialog: {
+        // 参与活动提示弹窗
         show: false,
-        type: 1,  // 1-实物；2-积分；3-红包；
-      },  
-      resultDialog: { // 领奖结果弹窗
+        type: 1 // 1-今天没机会了；2-活动攻略；3-积分不够，改天再玩；4-分享
+      },
+      wainingDialog: {
+        // 中奖领取弹窗
+        show: false,
+        type: 1 // 1-实物；2-积分；3-红包；
+      },
+      resultDialog: {
+        // 领奖结果弹窗
         show: false,
         type: 2 //  1-实物；2-积分；3-红包自动发放；4-红包手动领取
       },
-      cashDialog: { // 红包提现弹窗
+      cashDialog: {
+        // 红包提现弹窗
         show: false,
-        allAmount: '0.01' // 全部余额
+        allAmount: "0.01" // 全部余额
       },
-      shareTipsOverlay: false,  // 分享指示提示
+      shareTipsOverlay: false, // 分享指示提示
     };
   },
   mounted() {
-    console.log(this.$route.query)
+    console.log(this.$route.query);
     // let data = {
     //   id: 1111
     // };
@@ -242,67 +284,90 @@ export default {
     // });
   },
   methods: {
-    followSubmit(val){
+    followSubmit(val) {
       // 关注弹窗点击确定
       console.log(val);
-      if(val.method == 1) {
+      if (val.method == 1) {
         // 强制关注
-        if(val.type == 1) {
+        if (val.type == 1) {
           // 强制关注-语音
-          console.log('强制关注-语音')
+          console.log("强制关注-语音");
         } else {
           // 强制关注-文字
-          console.log('强制关注-文字')
-        };
+          console.log("强制关注-文字");
+        }
       } else {
         // 引导关注
-        if(val.type == 1) {
+        if (val.type == 1) {
           // 引导关注-语音
-          console.log('引导关注-语音')
+          console.log("引导关注-语音");
         } else {
           // 引导关注-文字
-          console.log('引导关注-文字')
-        };
-      };
+          console.log("引导关注-文字");
+        }
+      }
       this.followDialog.show = false;
     },
-    joinSubmit(val){
+    joinSubmit(val) {
       // 参加活动 弹窗 关闭
-      if(val.type == 4) {
+      if (val.type == 4) {
         this.shareTipsOverlay = true;
-      };
+      }
       this.joinDialog.show = false;
     },
-    wainingSubmit(val){
+    wainingSubmit(val) {
       // 获奖领取弹窗 确定
       console.log(val);
       this.wainingDialog.show = false;
     },
-    resultSubmit(val){
+    resultSubmit(val) {
       // 获奖结果弹窗 关闭
-      console.log(val)
+      console.log(val);
       this.resultDialog.show = false;
     },
-    cashSubmit(val){
-      // 红包提现弹窗 
+    cashSubmit(val) {
+      // 红包提现弹窗
       console.log(val);
       this.cashDialog.show = false;
     },
-    openStrategy(){
+    openStrategy() {
       // 打开活动攻略
       this.joinDialog.type = 2;
       this.joinDialog.show = true;
     },
-    openShare(){
+    openShare() {
       // 打开分享好友弹窗
       this.joinDialog.type = 4;
       this.joinDialog.show = true;
     },
-    toPrize(){
+    toPrize() {
       // 跳转到 我的奖品
       this.$router.push({
-        path: '/prize'
-      })
+        path: "/prize"
+      });
+    },
+    listUpOnLoad() {
+      // 列表上拉刷新
+      const self = this;
+      console.log("listUpOnLoad");
+      let later = setTimeout(() => {
+        self.listUpLoading = false;
+        let arr = [{id:1,avatar:"https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",name:"荒原",text:"红鲤鱼说他家的李屡屡比绿鲤鱼家的吕里里绿",time:"44``",num:"4.6",date:"2019-09-17 09:10"},{id:2,avatar:"https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",name:"荒原",text:"红鲤鱼说他家的李屡屡比绿鲤鱼家的吕里里绿",time:"44``",num:"2.8",date:"2019-09-17 09:10"},{id:3,avatar:"https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",name:"荒原",text:"红鲤鱼说他家的李屡屡比绿鲤鱼家的吕里里绿",time:"44``",num:"5.3",date:"2019-09-17 09:10"},{id:4,avatar:"https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",name:"荒原",text:"红鲤鱼说他家的李屡屡比绿鲤鱼家的吕里里绿",time:"44``",num:"8.1",date:"2019-09-17 09:10"},{id:5,avatar:"https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",name:"荒原",text:"红鲤鱼说他家的李屡屡比绿鲤鱼家的吕里里绿",time:"44``",num:"3.2",date:"2019-09-17 09:10"}];
+        let temp = self.joinList;
+        let result = [...temp, ...arr];
+        self.joinList = result;
+        clearTimeout(later)
+      }, 500);
+
+    },
+    listDownOnLoad() {
+      // 列表下拉刷新
+      const self = this;
+      console.log("listDownOnLoad");
+      let later = setTimeout(() => {
+        self.listDownLoading = false;
+        clearTimeout(later)
+      }, 500);
     },
     listScroll() {
       // 参与用户 列表滚动监听
@@ -311,28 +376,33 @@ export default {
       // console.log("ele");
       // console.log(parent.scrollTop);
       // console.log(child.clientHeight); // 257
-      if(child.clientHeight - parent.scrollTop - 257 < 100) {
+      if (child.clientHeight - parent.scrollTop - 257 < 100) {
         console.log("到底了");
       } else {
         console.log("没到底");
-      };
+      }
     },
     joinPeoplePopupEnter() {
-      this.$refs.joinList.addEventListener("scroll", this.listScroll, true);
+      // this.$refs.joinList.addEventListener("scroll", this.listScroll, true);
     },
     joinPeoplePopupClose() {
-      this.$refs.joinList.removeEventListener("scroll", this.listScroll, true);
+      // this.$refs.joinList.removeEventListener("scroll", this.listScroll, true);
     },
     showJoinPeople() {
       this.joinPeoplePopup = true;
       // console.log(this.$refs.joinList)
     },
     changeJoinType() {
+      // 参与列表： 1-全部; 2-只看自己
       if (this.joinType == 1) {
         this.joinType = 2;
       } else {
         this.joinType = 1;
       }
+    },
+    showMore(){
+      // this.joinPeoplePopupHeight = window.screen.availHeight;
+      // console.log(window.screen.availHeight)
     }
   }
 };

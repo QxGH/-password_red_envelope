@@ -28,8 +28,9 @@
               </div>
             </div>
             <div class="card-footer">
-              <button class="footer-btn" type="button">立即领取</button>
-              <button class="footer-btn" type="button" @click="toCash">去提现</button>
+              <button class="footer-btn orange-btn" type="button">立即领取</button>
+              <button class="footer-btn gary-btn" disabled type="button">已领取</button>
+              <button class="footer-btn orange-btn" type="button" @click="toCash">去提现</button>
             </div>
           </li>
         </ul>

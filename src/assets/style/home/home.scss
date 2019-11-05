@@ -169,6 +169,7 @@
     overflow: hidden;
     .popup-header {
       position: absolute;
+      z-index: 99;
       width: 100%;
       height: 35px;
       line-height: 35px;

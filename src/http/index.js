@@ -19,7 +19,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 
 instance.interceptors.request.use(
   config => {
-    const token = store.state.token;
+    const token = localStorage.getItem("password_red_envelope_token");
     if (token) {
       config.headers.Authorization = token
     };

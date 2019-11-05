@@ -91,16 +91,24 @@
         .footer-btn {
           width:80px;
           height:27px;
-          border:1px solid rgba(255,72,0,1);
           border-radius:13px;
           background: #fff;
           outline: 0;
           margin-right: 10px;
           font-size: 13px;
-          color: #FF4800;
+          border-width: 1px;
+          border-style: solid;
           &:last-child {
             margin-right: 0;
           }
+        }
+        .orange-btn {
+          color: #FF4800;
+          border-color: rgba(255,72,0,1);
+        }
+        .gary-btn {
+          color: #999;
+          border-color: #dedede;
         }
       }
     }

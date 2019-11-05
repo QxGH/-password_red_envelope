@@ -104,15 +104,25 @@
 .prize .prize-list .item .card-footer .footer-btn {
   width: 80px;
   height: 27px;
-  border: 1px solid #ff4800;
   border-radius: 13px;
   background: #fff;
   outline: 0;
   margin-right: 10px;
   font-size: 13px;
-  color: #FF4800;
+  border-width: 1px;
+  border-style: solid;
 }
 
 .prize .prize-list .item .card-footer .footer-btn:last-child {
   margin-right: 0;
+}
+
+.prize .prize-list .item .card-footer .orange-btn {
+  color: #FF4800;
+  border-color: #ff4800;
+}
+
+.prize .prize-list .item .card-footer .gary-btn {
+  color: #999;
+  border-color: #dedede;
 }
