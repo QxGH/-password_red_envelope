@@ -11,7 +11,7 @@ import 'amfe-flexible/index.js';
 
 import './assets/style/common.css';
 
-// 获取 code 
+// 用户授权，获取 code
 import authorize from "@/authorize"
 authorize();
 

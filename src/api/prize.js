@@ -3,11 +3,11 @@ import axios from '@/http'; // 导入http中创建的axios实例
 import qs from 'qs'; // 根据需求是否导入qs模块
 
 const home = {
-  // home    
+  // prize index    
   index(params) {
-    return axios.get(`${base.http}/userInfo`, {params});
+    return axios.post(`${base.http}/userInfo`, qs.stringify(params));
   },
-  // home list
+  // prize list
   list(params) {
     return axios.post(`${base.http}/tableData`, qs.stringify(params));
   }

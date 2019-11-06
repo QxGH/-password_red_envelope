@@ -8,7 +8,7 @@ if(process.env.NODE_ENV == 'production') {
 } else {
   // development
   base = {    
-    http: 'http://mock-api.com/ynWopyn6.mock'
+    http: ''
   };
 };
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '@/http'; // 导入http中创建的axios实例
 import qs from 'qs';
 import { Toast } from 'vant';
 import base from '../api/base'; // 导入接口域名列表
@@ -18,11 +18,12 @@ let getParams = () => {
 };
 
 let authorize = () => {
-  let params = getParams();
-  console.log(params);
-  if(!params.code) {
+  if(localStorage.getItem("xc_pwd_red_envelope")) {
+    // 已经有 token
     return;
   };
+  let params = getParams();
+  console.log(params);
   let formData = qs.stringify({
     code: params.code
   });
@@ -30,7 +31,11 @@ let authorize = () => {
   .then((res) => {
     if(res.data.errnu == 0) {
       console.log(res);
-      localStorage.setItem("password_red_envelope_token", res.data.data.token);
+      let xc_pwd_red_envelope = {
+        token: res.data.data.token,
+        scope: res.data.data.scope
+      };
+      localStorage.setItem("xc_pwd_red_envelope", JSON.stringify(xc_pwd_red_envelope));
     } else {
       Toast.fail('授权失败！');
     }

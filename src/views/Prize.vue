@@ -90,6 +90,24 @@ export default {
     });
   },
   methods: {
+    index(){
+      let data = {
+
+      };
+      this.$api.prize.index(data)
+      .then((res) => {
+        console.log(res)
+      })
+    },
+    getList(){
+      let data = {
+
+      };
+      this.$api.prize.list(data)
+      .then((res) => {
+        console.log(res)
+      })
+    },
     downCallback(){
       let page = 1;
       // //请求的列表数据

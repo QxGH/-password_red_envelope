@@ -271,14 +271,14 @@ export default {
   },
   mounted() {
     console.log(this.$route.query);
-    // let data = {
-    //   id: 1111
-    // };
-    // this.$api.home.homeIndex(data)
-    // .then(res => {
-    //   console.log(res)
-    // });
-    // this.$api.home.homeList(data)
+    let data = {
+      id: 1111
+    };
+    this.$api.home.index(data)
+    .then(res => {
+      console.log(res)
+    });
+    // this.$api.home.list(data)
     // .then(res => {
     //   console.log(res)
     // });

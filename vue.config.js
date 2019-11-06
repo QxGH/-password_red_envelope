@@ -1,4 +1,4 @@
-module.exports = {
+let config = {
     publicPath: "./",
     outputDir: "dist",
     lintOnSave: false,
@@ -7,16 +7,23 @@ module.exports = {
     devServer: {
         host: "0.0.0.0",
         port: 8085,
-        https: false,
-        proxy: {
-            '/api': {
-                target: 'http://192.168.2.60:8080/',
-                changeOrigin: true,   //允许跨域
-                ws: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
+        https: false
+    }
+};
+
+if(process.env.NODE_ENV == 'development') {
+    // production 代理
+    config.devServer.proxy = {
+        '/api': {
+            target: 'http://mock-api.com/ynWopyn6.mock',
+            // target: 'http://192.168.2.60:8080/',
+            changeOrigin: true,
+            ws: true,
+            pathRewrite: {
+                '^/api': ''
             }
         }
     }
 };
+
+module.exports = config;
