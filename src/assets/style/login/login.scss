@@ -1,0 +1,32 @@
+.login {
+  text-align: center;
+  height: 100%;
+  position: relative;
+  .loading-box {
+    width: 100%;
+    position: absolute;
+    top: 40%;
+    left: 0;
+  }
+  .progress {
+    text-align: center;
+    font-size: 16px;
+    color: #1989fa;
+    padding: 10px 0;
+  }
+  .qrcode-box {
+    text-align: center;
+    padding-top: 100px;
+    .img {
+      width: 230px;
+      height: 230px;
+      display: block;
+      margin: 0 auto;
+    }
+    .tips {
+      font-size: 18px;
+      color: #333;
+      margin-top: 15px;
+    }
+  }
+}

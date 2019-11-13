@@ -58,9 +58,9 @@ export default {
       this.$emit('joinConfirm', this.joinDialog);
     },
     clickWrap(){
-      if(this.joinDialog.type == 2) {
+      if(this.joinDialog.type == 2 || this.joinDialog.type == 4) {
         this.joinDialog.show = false;
-        this.$emit('joinConfirm', this.joinDialog);
+        this.$emit('joinClose', this.joinDialog);
       };
     }
   }

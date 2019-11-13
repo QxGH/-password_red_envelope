@@ -4,9 +4,11 @@
   .top-img {
     width: 100%;
     height: 209px;
-    background-image: url('../../images/top.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    font-size: 0;
+    .img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .tag-box {
     height: 35px;
@@ -249,16 +251,13 @@
             background-image: url('../../images/voice_bubble.png');
             background-repeat: no-repeat;
             background-size: 100% 100%;
-            padding: 5.5px 0 0 12px;
+            padding: 5px 0 0 12px;
             box-sizing: border-box;
             float: left;
-            .icon {
+            .img {
               display: block;
               width: 9px;
               height: 12px;
-              background-image: url('../../images/voice.png');
-              background-repeat: no-repeat;
-              background-size: 100% 100%;
             }
           }
           .time {
@@ -340,6 +339,31 @@
       position: absolute;
       top: 152px;
       right: 177px;
+    }
+  }
+  .audioPlayer {
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .loading-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    .icon-box {
+      text-align: center;
+      position: absolute;
+      top: 40%;
+      left: 0;
+      width: 100%;
     }
   }
 }

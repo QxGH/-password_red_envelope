@@ -16,9 +16,9 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 
 instance.interceptors.request.use(
   config => {
-    let token = JSON.parse(localStorage.getItem("xc_pwd_red_envelope")).token;
-    if (token) {
-      config.headers.Authorization = token
+    let xc_pwd_red_envelope = JSON.parse(localStorage.getItem("xc_pwd_red_envelope"));
+    if (xc_pwd_red_envelope) {
+      config.headers.Authorization = xc_pwd_red_envelope.token
     };
     return config;
   },

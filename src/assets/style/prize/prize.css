@@ -99,7 +99,8 @@
   box-sizing: border-box;
   padding: 10px;
   text-align: right;
-  background-color: red;
+  line-height: 27px;
+  font-size: 0;
 }
 
 .prize .prize-list .item .card-footer .footer-btn {
