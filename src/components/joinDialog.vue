@@ -1,5 +1,6 @@
 <template >
-  <div class="join-dialog" v-if="joinDialog.show" @click="clickWrap">
+  <div class="join-dialog" v-if="joinDialog.show">
+    <div class="dialog-overlay" @click="clickWrap"></div>
     <div class="dialog-content">
       <div class="dialog-header">
         <div class="title">
@@ -75,9 +76,22 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 997;
     width: 100%;
     height: 100%;
+    background: transparent;
+    .dialog-overlay {
+      z-index: 998;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.75);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 998;
+    }
     .dialog-content {
       width: 263px;
       height: 291px;
@@ -88,6 +102,7 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
+      z-index: 999;
       transform: translate(-50%,-50%);
     }
     .dialog-header {

@@ -38,7 +38,7 @@ new Vue({
     //   this.$router.push({
     //     path: '/login',
     //     query: {
-    //       isBrowser: 0
+    //       isWxBrowser: 0
     //     }
     //   })
     // };

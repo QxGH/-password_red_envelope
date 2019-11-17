@@ -1,5 +1,6 @@
 <template >
-  <div class="follow-dialog" v-if="followDialog.show">
+  <div class="follow-dialog" v-if="followDialog.show" >
+    <div class="dialog-overlay" @click="confirm"></div>
     <div class="force dialog-content" v-if="followDialog.method == 1">
       <div class="qrcode">
         <img class="img" src="" alt="">
@@ -44,15 +45,27 @@ export default {
 
 <style lang="scss">
   .follow-dialog {
-    background: rgba(0,0,0,.75);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 997;
     width: 100%;
     height: 100%;
+    background: transparent;
+    .dialog-overlay {
+      z-index: 998;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.75);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 998;
+    }
     .dialog-content {
       background: #fff;
       padding: 30px 20px;
@@ -62,6 +75,7 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
+      z-index: 999;
       transform: translate(-50%,-50%);
     }
     .force {

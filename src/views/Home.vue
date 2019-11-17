@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="top-img">
-      <img class="img" src="../assets/images/top.png" alt />
+      <img class="img" :src="topImgSrc" alt />
     </div>
     <div class="tag-box">
       <div class="prize tag-item" @click="toPrize">
@@ -193,7 +193,8 @@ export default {
   data() {
     return {
       amr: null,  // amr-js 解码器
-      activityData: {},
+      activityData: {}, // 活动数据
+      topImgSrc: require('../assets/images/top.png'),  // 顶部图片路径
       joinPeoplePopup: false, // 参与弹窗
       joinPeoplePopupHeight: 320,
       joinType: "1", // 1-全部；2-只看我
@@ -203,9 +204,8 @@ export default {
           avatar:
             "https://teststatic.xingchen.cn/image/aowp/qpwf/bwwf/psll/aowpqpwfbwwfpsll.png",
           name: "荒原",
-          text: "",
-          // src: 'http://qiniu.xingchen.cn/20191106/7fd08c1f2a667c0291618d126471ddde.mp3',
-          src: "http://qiniu.xingchen.cn/testamr/bi8dYHtPXrI_WJWPxOj4OM5INRTYGeo2HE0aZL9KOwgGUAGqnSEBemaoSwSPLQHL.amr",
+          text: "书法家黑暗发你发",
+          // src: "http://qiniu.xingchen.cn/testamr/bi8dYHtPXrI_WJWPxOj4OM5INRTYGeo2HE0aZL9KOwgGUAGqnSEBemaoSwSPLQHL.amr",
           time: "44``",
           num: "4.6",
           date: "2019-09-17 09:10"

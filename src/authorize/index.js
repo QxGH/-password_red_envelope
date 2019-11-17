@@ -53,6 +53,8 @@ let authorize = () => {
     //   path: '/'
     // })
     console.log(this)
+  } else if (params.result) {
+    this.$router.push('/404');
   };
 };
 

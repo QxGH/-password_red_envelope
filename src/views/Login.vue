@@ -31,7 +31,7 @@ export default {
   },
   mounted(){
     console.log(this.$route.query)
-    if(this.$route.query.isBrowser == 0) {
+    if(this.$route.query.isWxBrowser == 0) {
       this.ifLoading = false;
       // this.$api.login.qrcode(data)
       // .then(res => {
